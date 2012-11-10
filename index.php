@@ -3,62 +3,52 @@
 // BOOTSTRAP //////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-// AUTOLOADER -----------------------------------------------------------------
+date_default_timezone_set('America/Los_Angeles');
+
+require 'App/Data.php';
+require 'App/Library.php';
 require 'Slim/Slim.php';
+
+// AUTOLOADER -----------------------------------------------------------------
 \Slim\Slim::registerAutoloader();
 
-// DATA -----------------------------------------------------------------------
-$DATA = array(
-    'resume' => array(
-        'summary'    => 'I am an experienced web developer and database administrator with a proven history of designing, developing and supporting multiple, time-sensitive projects, both independently and as part of a team.',
-        'contact'    => array(
-            // VCARD
-            // Phone: 206.778.2893 • Email: jake@cleer.net • 1945 Miss Ellis Loop • Poulsbo, WA 98370 
-            'fn' => 'Jacob W. Lee',
-            'nickname' => array('Jake'),
-            'email' => 'jake@cleer.net',
-            'tel'   => '+1.206.778.2893',
-            'adr'   => array(
-                'street-address' => '1945 Miss Ellis Loop NE',
-                'locality'       => 'Poulsbo',
-                'region'         => 'Washington',
-                'postal-code'    => '98370',
-                'country-name'   => 'U.S.A.'
-            ),
-        ),
-        'experiance' => array(
-            // iCalendar
-            array(
-                'summary' => '',
-                'dtstart' => '',
-                'dtend'   => '',
-                'location' => '',
-                '' => '',
-                '' => '',
-                '' => '',
-            ),
-        ),
-        'education'  => array( /* hCalendar */ ),
-        'skills'     => array( /* rel-tag */ ),
-    )
-);
 
 // CREATE APP -----------------------------------------------------------------
 $app = new \Slim\Slim();
 
 // The default index route
 $app->get('/', function () use ($app) {
-    // !TODO: Display an info page on how to use this API
-    echo('Hello there');
+    require 'App/Help.html';
 });
 
-// The API accessors route.
-$app->get('/api(/)(:nodes+)', function ($nodes = array()) use ($app, $DATA) {
-    $headers = $app->response();
+// The API accessor route.
+$app->get('/api(/)(:path+)', function ($dirtyPath = array()) use ($app, $resume) {
+    // Filter each of our nodes to only alphanumeric values.
+    $cleanPath = preg_replace(array('/[^a-z0-9]+/i'), array(''), $dirtyPath);
 
+    // Build our basic response object
+    $response = array(
+        'status' => 'success',
+        'path'   => $cleanPath,
+        'resume' => null,
+    );
+
+    // Get the response payload
+    $payload = walkTree($cleanPath, $resume);
+
+    if ($payload === false) {
+        $response['status'] = 'failure';
+    } else {
+        $response['resume'] = $payload;
+    }
+
+    // Setup the response
+    $headers = $app->response();
     $headers['Content-Type'] = 'application/json;utf-8';
-    print_r(array('treeRequested' => $nodes, 'tree' => $DATA));
+    echo json_encode($response);
 });
 
 // RUN THE APP ----------------------------------------------------------------
 $app->run();
+
+

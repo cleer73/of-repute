@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html><head>
+    <meta charset="utf-8">
+
+    <title>Of Repute - A simple resume API.</title>
+
+    <style>
+    body {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    #container {
+        width: 60em;
+        margin: 0px auto;
+        padding: 0px;
+    }
+
+    iframe {
+        width: 100%;
+        height: 4em;
+        border: 1px solid #CCC;
+
+    }
+    </style>
+</head><body>
+    <div id="container">
+        <h1>Of Repute - A simple resume API.</h1>
+
+        <hr/>
+
+        <h2>Site Layout</h2>
+
+        <dl>
+        <dt>./</dt><dd>This help documentation</dd>
+        <dt>./api</dt><dd>The actual resume data api is located. This data is served with a '<code>Content-Type</code>' of '<code>application/json;utf-8</code>'.</dd>
+        </dl>
+
+        <hr/>
+
+        <h2>API Data Access Description</h2>
+
+        <p>
+        The entire JSON document is navigable, so each array key/object
+        property that is listed is available for direct access.
+        </p>
+
+        <h3>Examples:</h3>
+
+        <dl>
+        <dt><a href="./api">./api</a></dt><dd><iframe src="./api"></iframe></dd>
+        <dt><a href="./api/experiance">./api/experiance</a></dt><dd><iframe src="./api/experiance"></iframe></dd>
+        <dt><a href="./api/skills/1">./api/skills/0</a></dt><dd><iframe src="./api/skills/0"></iframe></dd>
+        <dt><a href="./api/contact">./api/contact</a></dt><dd><iframe src="./api/contact"></iframe></dd>
+        </dl>
+    </div>
+</body></html>
