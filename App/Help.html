@@ -31,15 +31,37 @@
     </style>
 </head><body>
     <div id="container">
-        <h1>Of Repute - A simple resume API.</h1>
+        <h1>Of Repute &mdash; A simple resume API.</h1>
 
         <hr/>
 
-        <h2>Site Layout</h2>
+        <h2>API Map</h2>
 
         <dl>
         <dt><code><a href="./">./</a></code></dt><dd>This help documentation</dd>
         <dt><code><a href="./resume">./resume</a></code></dt><dd>The actual resume data api is located here. This data is served with a '<code>Content-Type</code>' of '<code>application/json;utf-8</code>'.</dd>
+        </dl>
+
+        <hr/>
+
+        <h2>Response Package</h2>
+
+        <p>Responses are packaged in the following data object:</p>
+
+        <pre>
+{
+    status: "",
+    path: [],
+    data: {}
+}
+        </pre>
+
+        <h3>Response Key Definitions</h3>
+
+        <dl>
+        <dt><code>status => ( 'success' | 'failure' )</code></dt><dd>Indicates if the node in the resume document was found.</dd>
+        <dt><code>path => []</code></dt><dd>The scrubbed array of requested path nodes in the document.</dd>
+        <dt><code>data => ( {} | NULL )</code></dt><dd>The data requested in the path, if the <code>status</code> is a '<code>failure</code>' then this key will be <code>NULL</code>.</dd>
         </dl>
 
         <hr/>
@@ -66,28 +88,6 @@
 
             <dt><code><a href="./resume/contact">./resume/contact</a></code> &mdash; The resume contact information.</dt>
             <dd><iframe src="./resume/contact"></iframe></dd>
-        </dl>
-
-        <hr/>
-
-        <h2>Response Package</h2>
-
-        <p>Responses are packaged in the following data object:</p>
-
-        <pre>
-{
-    status: "",
-    path: [],
-    data: {}
-}
-        </pre>
-
-        <h3>Response Key Definitions</h3>
-
-        <dl>
-        <dt><code>status => ( 'success' | 'failure' )</code></dt><dd>Indicates if the node in the resume document was found.</dd>
-        <dt><code>path => []</code></dt><dd>The scrubbed array of requested path nodes in the document.</dd>
-        <dt><code>data => ( {} | NULL )</code></dt><dd>The data requested in the path, if the <code>status</code> is a '<code>failure</code>' then this key will be <code>NULL</code>.</dd>
         </dl>
 
         <hr/>
