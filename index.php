@@ -16,36 +16,37 @@ require 'Slim/Slim.php';
 // CREATE APP -----------------------------------------------------------------
 $app = new \Slim\Slim();
 
-// The default index route
-$app->get('/', function () use ($app) {
+// APP ROUTES -----------------------------------------------------------------
+
+// The default index/help route
+$app->get('/', function () {
     require 'App/Help.html';
 });
 
 // The API accessor route.
-$app->get('/api(/)(:path+)', function ($dirtyPath = array()) use ($app, $resume) {
+$app->get('/resume(/)(:path+)', function ($dirtyPath = array()) use ($app, $resume) {
     // Filter each of our nodes to only alphanumeric values.
-    $cleanPath = preg_replace(array('/[^a-z0-9]+/i'), array(''), $dirtyPath);
+    $cleanPath = preg_replace('/[^a-z0-9]+/i', '', $dirtyPath);
 
-    // Build our basic response object
+    // Build the default response object
     $response = array(
         'status' => 'success',
         'path'   => $cleanPath,
-        'resume' => null,
+        'data'   => null,
     );
 
-    // Get the response payload
+    // Walk the tree of document nodes to get the payload
     $payload = walkTree($cleanPath, $resume);
 
-    if ($payload === false) {
-        $response['status'] = 'failure';
-    } else {
-        $response['resume'] = $payload;
-    }
+    // If walkTree() found a bad node in the path, fail the response, otherwise
+    // store the data.
+    if ($payload === false) { $response['status'] = 'failure'; }
+    else                    { $response['data']   = $payload; }
 
-    // Setup the response
+    // Render the response
     $headers = $app->response();
     $headers['Content-Type'] = 'application/json;utf-8';
-    echo json_encode($response);
+    echo json_encode($response, true);
 });
 
 // RUN THE APP ----------------------------------------------------------------
