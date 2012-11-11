@@ -7,11 +7,18 @@
     <style>
     body {
         margin: 0px;
+        padding: 0px 0px 4em 0px;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid #CCC;
+        margin: 2em 0px 1em 0px;
         padding: 0px;
     }
 
     #container {
-        width: 60em;
+        width: 45em;
         margin: 0px auto;
         padding: 0px;
     }
@@ -20,7 +27,6 @@
         width: 100%;
         height: 4em;
         border: 1px solid #CCC;
-
     }
     </style>
 </head><body>
@@ -32,8 +38,8 @@
         <h2>Site Layout</h2>
 
         <dl>
-        <dt>./</dt><dd>This help documentation</dd>
-        <dt>./api</dt><dd>The actual resume data api is located. This data is served with a '<code>Content-Type</code>' of '<code>application/json;utf-8</code>'.</dd>
+        <dt><code><a href="./">./</a></code></dt><dd>This help documentation</dd>
+        <dt><code><a href="./resume">./resume</a></code></dt><dd>The actual resume data api is located here. This data is served with a '<code>Content-Type</code>' of '<code>application/json;utf-8</code>'.</dd>
         </dl>
 
         <hr/>
@@ -41,17 +47,58 @@
         <h2>API Data Access Description</h2>
 
         <p>
-        The entire JSON document is navigable, so each array key/object
-        property that is listed is available for direct access.
+        The entire JSON document is navigable via the url request, so always
+        starting with <code>./resume</code> you can acess each property that is
+        listed from the root.
         </p>
 
         <h3>Examples:</h3>
 
         <dl>
-        <dt><a href="./api">./api</a></dt><dd><iframe src="./api"></iframe></dd>
-        <dt><a href="./api/experiance">./api/experiance</a></dt><dd><iframe src="./api/experiance"></iframe></dd>
-        <dt><a href="./api/skills/1">./api/skills/0</a></dt><dd><iframe src="./api/skills/0"></iframe></dd>
-        <dt><a href="./api/contact">./api/contact</a></dt><dd><iframe src="./api/contact"></iframe></dd>
+            <dt><code><a href="./resume">./resume</a></code> &mdash; The root of the resume document.</dt>
+            <dd><iframe src="./resume"></iframe></dd>
+
+            <dt><code><a href="./resume/experience">./resume/experience</a></code> &mdash; All the experience records, the employment history.</dt>
+            <dd><iframe src="./resume/experience"></iframe></dd>
+
+            <dt><code><a href="./resume/skills/1">./resume/skills/1</a></code> &mdash; The second entry in the skills array.</dt>
+            <dd><iframe src="./resume/skills/1"></iframe></dd>
+
+            <dt><code><a href="./resume/contact">./resume/contact</a></code> &mdash; The resume contact information.</dt>
+            <dd><iframe src="./resume/contact"></iframe></dd>
         </dl>
+
+        <hr/>
+
+        <h2>Response Package</h2>
+
+        <p>Responses are packaged in the following data object:</p>
+
+        <pre>
+{
+    status: "",
+    path: [],
+    data: {}
+}
+        </pre>
+
+        <h3>Response Key Definitions</h3>
+
+        <dl>
+        <dt><code>status => ( 'success' | 'failure' )</code></dt><dd>Indicates if the node in the resume document was found.</dd>
+        <dt><code>path => []</code></dt><dd>The scrubbed array of requested path nodes in the document.</dd>
+        <dt><code>data => ( {} | NULL )</code></dt><dd>The data requested in the path, if the <code>status</code> is a '<code>failure</code>' then this key will be <code>NULL</code>.</dd>
+        </dl>
+
+        <hr/>
+
+        <h2>Notes on Resume Data</h2>
+
+        <li>The <code><strong>experience</strong></code> and <code><strong>education</strong></code> keys store arrays of objects with keys based on the <a href="http://www.ietf.org/rfc/rfc2445.txt">iCalendar</a> specification.</li>
+
+        <li>The <code><strong>contact</strong></code> key stores data based on the <a href="http://www.ietf.org/rfc/rfc2426.txt">vCard</a> specification.</li>
+
+        <hr/>
+
     </div>
 </body></html>
