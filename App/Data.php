@@ -2,7 +2,7 @@
 
 // DATA -----------------------------------------------------------------------
 $resume = array(
-    'summary'    => 'I am an experianced web developer and database administrator with a proven history of designing, developing and supporting multiple, time-sensitive projects, both independently and as part of a team.',
+    'summary'    => 'I am an experienced web developer and database administrator with a proven history of designing, developing and supporting multiple, time-sensitive projects, both independently and as part of a team.',
     'contact'    => array(
         // vCard
         'fn' => 'Jacob W. Lee',
@@ -29,7 +29,7 @@ $resume = array(
         'Supporting and integrating various software systems (Great Plains, PowerCAMPUS, IQ.Web)',
         'Familiar with Python, Django, Java, C/C++',
     ),
-    'experiance' => array(
+    'experience' => array(
         // iCalendar
         array(
             'summary'  => 'Developer', // Job Title
